@@ -1,0 +1,17 @@
+import React from "react";
+
+const LogoutButton = () => {
+  const handleLogout = () => {
+    // Hapus token dari localStorage
+    localStorage.removeItem("token");
+
+    // Lakukan tindakan lainnya sesuai kebutuhan, seperti navigasi atau perubahan state
+    // ...
+  };
+
+  return (
+    <button onClick={handleLogout}>Logout</button>
+  );
+};
+
+export default LogoutButton;

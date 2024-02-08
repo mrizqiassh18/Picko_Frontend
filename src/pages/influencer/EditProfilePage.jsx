@@ -4,10 +4,13 @@ import axios from "axios";
 import cityList from "../../data/CityList";
 import categoryList from "../../data/CategoryList";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import Navbar from "../../components/Navbar";
 
 const EditProfileForm = () => {
   const { id: influencerId } = useParams();
   const navigate = useNavigate();
+  const { dispatch } = useAuth();
 
   useEffect(() => {
     // Check if user is logged in
@@ -22,6 +25,7 @@ const EditProfileForm = () => {
     address: "",
     phone: "",
     socialMediaLink: "",
+    followers: "",
     email: "",
     password: "",
     profile_photo: null,
@@ -51,6 +55,7 @@ const EditProfileForm = () => {
           address: influencer.address,
           phone: influencer.phone,
           socialMediaLink: influencer.socialMediaLink,
+          followers: influencer.followers,
           email: influencer.email,
           password: "",
           profile_photo: null,
@@ -121,37 +126,9 @@ const EditProfileForm = () => {
     }
   };
 
-  const handleLogout = () => {
-    // Hapus token dari penyimpanan lokal
-    localStorage.removeItem("token");
-
-    // Redirect ke halaman login atau landing page
-    navigate("/login");
-  };
-
   return (
     <div>
-      <nav className="bg-yellow p-4 flex justify-between items-center">
-        <div className="container mx-auto">
-          {/* Tambahkan logo di sini */}
-          <span className="text-white font-bold text-lg">Pick'O</span>
-        </div>
-        <div>
-          {/* Tombol Logout dan Kembali ke Landing Page */}
-          <button
-            onClick={handleLogout}
-            className="text-white hover:text-gray font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4"
-          >
-            Logout
-          </button>
-          <button
-            onClick={() => navigate("/")}
-            className="text-white hover:text-gray font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Back to Landing Page
-          </button>
-        </div>
-      </nav>
+      <Navbar />
 
       <div className="container mx-auto mt-10">
         {successMessage && (
@@ -254,6 +231,24 @@ const EditProfileForm = () => {
                 placeholder="Your Social Media Link"
                 onChange={handleChange}
                 value={formData.socialMediaLink}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="followers"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Followers
+              </label>
+              <input
+                type="number"
+                id="followers"
+                name="followers"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Number of Followers"
+                onChange={handleChange}
+                value={formData.followers}
               />
             </div>
 

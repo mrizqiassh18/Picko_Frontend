@@ -1,10 +1,22 @@
-// RegisterPage.jsx
-
-import React, { useState, useEffect } from 'react';
-import LoginForm from '../../components/LoginForm';
-
+import React, { useState, useEffect } from "react";
+import LoginForm from "../../components/LoginForm";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const { userId, role } = useAuth().state;
+
+  // Check jika user sudah login, redirect ke halaman lain
+  if (userId) {
+    if (role === "admin") {
+      navigate("/admin/account-control");
+    } else if (role === "influencer") {
+      navigate(`/influencer/edit-data/${userId}`);
+    }
+    return null;
+  }
+
   const [backgroundIndex, setBackgroundIndex] = useState(0);
 
   useEffect(() => {
@@ -16,8 +28,6 @@ const LoginPage = () => {
   }, []);
 
   const totalImages = 4; // Sesuaikan dengan jumlah gambar yang Anda miliki
-
-
 
   return (
     <div className="min-h-screen flex">

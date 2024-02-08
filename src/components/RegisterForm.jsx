@@ -1,8 +1,8 @@
 // RegisterForm.js
 import React from "react";
 import axios from "axios";
-import cityList from "../data/CityList";
-import categoryList from "../data/CategoryList";
+import cityList from "../data/cityList";
+import categoryList from "../data/categoryList";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -13,6 +13,7 @@ const RegisterForm = () => {
     address: "",
     phone: "",
     socialMediaLink: "",
+    followers: "",
     category: "",
     email: "",
     password: "",
@@ -24,6 +25,7 @@ const RegisterForm = () => {
     address: "",
     phone: "",
     socialMediaLink: "",
+    followers: "",
     category: "",
     email: "",
     password: "",
@@ -41,8 +43,24 @@ const RegisterForm = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    if (file) {
+      // Memeriksa tipe file
+      const fileType = file.type;
+      if (!["image/jpeg", "image/jpg", "image/png"].includes(fileType)) {
+        alert("Hanya file dengan tipe JPG, JPEG, dan PNG yang diizinkan.");
+        return;
+      }
+  
+      // Memeriksa ukuran file
+      const fileSize = file.size / 1024 / 1024; // Ukuran dalam MB
+      const maxSize = 1; // Ukuran maksimal dalam MB
+      if (fileSize > maxSize) {
+        alert(`Ukuran file melebihi batas maksimal ${maxSize} MB.`);
+        return;
+      }
     setFormData((prevData) => ({ ...prevData, profile_photo: file }));
   };
+}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,6 +104,9 @@ const RegisterForm = () => {
       console.error("Error registering:", error);
 
       setRegistrationStatus("error");
+      if (error.response && error.response.data) {
+        console.log("Server response data:", error.response.data);
+      }
     }
   };
 
@@ -111,7 +132,11 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="container mx-auto mt-10">
+    <div className="container mx-auto">
+      <div className="logo flex justify-center mb-10">
+        <img src="/public/logo/logo.png" alt="logo" />
+      </div>
+
       <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
         <div className="mb-4">
           <label
@@ -210,6 +235,28 @@ const RegisterForm = () => {
 
         <div className="mb-4">
           <label
+            htmlFor="followers"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
+            Followers
+          </label>
+          <input
+            type="number"
+            id="followers"
+            name="followers"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Number of Followers"
+            onChange={handleChange}
+            value={formData.followers}
+          />
+        </div>
+
+        {formErrors.followers && (
+          <p className="text-red-500 text-sm">{formErrors.followers}</p>
+        )}
+
+        <div className="mb-4">
+          <label
             htmlFor="photo"
             className="block text-gray-700 text-sm font-bold mb-2"
           >
@@ -219,7 +266,7 @@ const RegisterForm = () => {
             type="file"
             id="profile_photo"
             name="profile_photo"
-            accept="image/*"
+            accept=".jpg, .jpeg, .png"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             onChange={handleFileChange}
           />
@@ -312,14 +359,20 @@ const RegisterForm = () => {
             Registrasi gagal. Silakan coba lagi.
           </div>
         )}
-
-        <div className="mb-4">
-          <button
-            type="submit"
-            className="bg-yellow hover:bg-dark-yellow text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Register
-          </button>
+        <div className="flex gap-3">
+          <div className="mb-4">
+            <button
+              type="submit"
+              className="bg-yellow hover:bg-dark-yellow text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Register
+            </button>
+          </div>
+          <div className="backto-landingpage hover:bg-dark-yellow hover:text-grey bg-yellow w-52 h-10 rounded flex justify-center items-center">
+            <p className="text-white font-medium">
+              <Link to="/">Back to Landing Page</Link>
+            </p>
+          </div>
         </div>
         <div className="login-button hover:underline hover:text-grey">
           <p>

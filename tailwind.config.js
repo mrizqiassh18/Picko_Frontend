@@ -7,9 +7,10 @@ module.exports = {
     extend: {
       backgroundColor: {
         'yellow': '#fab411',
-        'dark-gray': '#2e2e2e',
+        'dark-grey': '#404040',
         'white': '#ffffff',
-        'dark-yellow' : '#cf950e'
+        'dark-yellow' : '#cf950e',
+        'grey': '#707070'
       },
     },
   },

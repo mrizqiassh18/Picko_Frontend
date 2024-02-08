@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
 const LoginForm = () => {
@@ -10,7 +11,10 @@ const LoginForm = () => {
     password: "",
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const navigate = useNavigate();
+  const { dispatch } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,35 +22,57 @@ const LoginForm = () => {
   };
 
   const handleLogin = async (e) => {
-
     e.preventDefault();
-    
+
     try {
-      // Lakukan permintaan login ke backend
       const response = await axios.post("http://localhost:5000/login", {
         email: formData.email,
         password: formData.password,
       });
 
-      // Dapatkan token dari respons
-      const token = response.data.token;
+      const { userId, token, role, name, status } = response.data;
+
+      // Dispatch aksi LOGIN untuk menyimpan informasi pengguna ke dalam konteks
+      dispatch({
+        type: "LOGIN",
+        payload: { userId, token, role, name, status },
+      });
 
       // Simpan token di localStorage
       localStorage.setItem("token", token);
 
-      const influencerId = response.data.userId;
-
-      // Setelah berhasil login, mungkin Anda ingin melakukan navigasi atau tindakan lainnya
-      // ...
-      navigate(`/influencer/edit-data/${influencerId}`);
+      // Redirect ke halaman yang sesuai dengan peran (role)
+      if (role === "admin") {
+        navigate("/admin/account-control");
+      } else {
+        // Redirect ke halaman influencer atau lainnya
+        navigate(`/influencer/edit-data/${userId}`);
+      }
     } catch (error) {
       // Handle error
       console.error("Login error:", error);
+
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Email atau password salah. Coba lagi.");
+      }
+
+      if (error.response && error.response.status === 403) {
+        // Influencer masih menunggu persetujuan admin
+        setErrorMessage(
+          "Akun Anda belum disetujui atau dinonaktifkan oleh admin. Harap hubungi admin di mrizqiassh18@gmail.com"
+        );
+        return;
+      }
     }
   };
 
   return (
     <div className="container mx-auto mt-10">
+
+      <div className="logo flex justify-center mb-16">
+        <img src="/logo/logo.png" alt="logo" />
+      </div>
+
       <form className="max-w-lg mx-auto" onSubmit={handleLogin}>
         {/* Email Input */}
         <div className="mb-4">
@@ -87,13 +113,20 @@ const LoginForm = () => {
         </div>
 
         {/* Submit Button */}
-        <div className="mb-4">
-          <button
-            type="submit"
-            className="bg-yellow hover:bg-dark-yellow text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Login
-          </button>
+        <div className="flex gap-3">
+          <div className="mb-4">
+            <button
+              type="submit"
+              className="bg-yellow hover:bg-dark-yellow text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Login
+            </button>
+          </div>
+          <div className="backto-landingpage hover:bg-dark-yellow hover:text-grey bg-yellow w-52 h-10 rounded flex justify-center items-center">
+            <p className="text-white font-medium">
+              <Link to="/">Back to Landing Page</Link>
+            </p>
+          </div>
         </div>
         <div className="register-button hover:underline hover:text-grey">
           <p>
@@ -101,6 +134,7 @@ const LoginForm = () => {
           </p>
         </div>
       </form>
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
     </div>
   );
 };

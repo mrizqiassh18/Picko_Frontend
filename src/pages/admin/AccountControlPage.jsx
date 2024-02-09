@@ -204,8 +204,7 @@ const AccountControlPage = () => {
         {filteredInfluencers.length === 0 ? (
           <div className="no-influencer flex items-center justify-center mt-10">
             <h2 className="text-2xl font-semibold">No influencers found.</h2>
-            </div>
-          
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredInfluencers.map((influencer) => (
@@ -214,6 +213,7 @@ const AccountControlPage = () => {
                 influencer={influencer}
                 onApprove={handleApprove}
                 onDisable={handleDisable}
+                onDelete={handleDelete}
               />
             ))}
           </div>

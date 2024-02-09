@@ -232,7 +232,7 @@ const InfluencerList = () => {
           <h3 className="text-2xl font-semibold">No influencers found.</h3>
         </div>
       ) : (
-        <div className="flex flex-wrap justify-center gap-8 mx-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredInfluencers.map((influencer) => (
             <InfluencerCard key={influencer._id} influencer={influencer} />
           ))}

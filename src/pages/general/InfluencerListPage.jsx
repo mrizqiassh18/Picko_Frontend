@@ -46,7 +46,7 @@ const InfluencerList = () => {
           }
         });
 
-        const response = await axios.get("https://picko-backend-k2drcy8zj-mrizqiassh18.vercel.app/home", {
+        const response = await axios.get("https://picko-backend.vercel.app/home", {
           params: filterParams,
         });
         setInfluencers(response.data.influencers);

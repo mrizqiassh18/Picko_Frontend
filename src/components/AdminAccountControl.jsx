@@ -1,7 +1,7 @@
 // src/components/InfluencerCard.js
 import React from "react";
 
-const AdminAccountControl = ({ influencer, onApprove, onDisable }) => {
+const AdminAccountControl = ({ influencer, onApprove, onDisable, onDelete }) => {
   return (
     <div className="profile-card border-white40 flex w-full max-w-md flex-col items-center rounded-lg border bg-white p-8 shadow-lg mb-10">
       <div className="image relative h-70 w-25 flex items-center">
@@ -51,6 +51,12 @@ const AdminAccountControl = ({ influencer, onApprove, onDisable }) => {
               Disable
             </button>
           )}
+          <button
+            className="bg-red-500 hover:bg-dark-red text-white px-4 py-2 rounded-md ml-2"
+            onClick={() => onDelete(influencer._id)}
+          >
+            Delete
+          </button>
         </div>
       </>
     </div>

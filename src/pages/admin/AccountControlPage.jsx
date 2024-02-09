@@ -127,6 +127,39 @@ const AccountControlPage = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      const result = await Swal.fire({
+        title: "Delete Influencer",
+        text: "Are you sure you want to delete this influencer?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel",
+      });
+
+      if (result.isConfirmed) {
+        await axios.delete(
+          `http://localhost:5000/api/admin/delete-influencer/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+
+        setInfluencers((prevInfluencers) =>
+          prevInfluencers.filter((influencer) => influencer._id !== id)
+        );
+
+        Swal.fire("Deleted!", "Influencer has been deleted.", "success");
+      }
+    } catch (error) {
+      console.error("Error deleting influencer:", error);
+      Swal.fire("Error!", "Failed to delete influencer.", "error");
+    }
+  };
+
   const filteredInfluencers = influencers.filter((influencer) => {
     const matchStatus = influencer.status
       .toLowerCase()
@@ -168,16 +201,23 @@ const AccountControlPage = () => {
 
       <div className="container mx-auto mt-14">
         <h1 className="text-2xl font-bold mb-8">Admin | Account Control</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredInfluencers.map((influencer) => (
-            <AdminAccountControl
-              key={influencer._id}
-              influencer={influencer}
-              onApprove={handleApprove}
-              onDisable={handleDisable}
-            />
-          ))}
-        </div>
+        {filteredInfluencers.length === 0 ? (
+          <div className="no-influencer flex items-center justify-center mt-10">
+            <h2 className="text-2xl font-semibold">No influencers found.</h2>
+            </div>
+          
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredInfluencers.map((influencer) => (
+              <AdminAccountControl
+                key={influencer._id}
+                influencer={influencer}
+                onApprove={handleApprove}
+                onDisable={handleDisable}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

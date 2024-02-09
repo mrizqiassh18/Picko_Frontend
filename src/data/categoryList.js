@@ -1,9 +1,33 @@
 const categoryList = [
-    "Category 1",
-    "Category 2",
-    "Category 3",
-    // Tambahkan kategori lainnya sesuai kebutuhan
-  ];
-  
-  export default categoryList;
-  
+  "Fashion",
+  "Beauty",
+  "Lifestyle",
+  "Fitness",
+  "Parenting",
+  "Travel",
+  "Gaming",
+  "Tech",
+  "Food",
+  "Business and Finance",
+  "Home Decor",
+  "DIY and Crafts",
+  "Health and Wellness",
+  "Education",
+  "Art and Design",
+  "Photography",
+  "Book Review",
+  "Entertainment",
+  "Music",
+  "Sports and Outdoor",
+  "Pet Care",
+  "Automotive",
+  "Environmental",
+  "Political",
+  "Social Justice",
+  "Personal Development",
+  "History and Culture",
+  "Science and Nature",
+  "Vlogging",
+];
+
+export default categoryList;

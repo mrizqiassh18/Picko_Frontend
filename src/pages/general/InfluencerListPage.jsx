@@ -164,7 +164,10 @@ const InfluencerList = () => {
               Dengan Pick'O mencari influencer untuk promosi menjadi mudah
             </div>
             <div className="help-button">
-              <button className="bg-transparent border-white border-2 hover:bg-black hover:bg-opacity-50 text-white px-4 py-2 rounded transition duration-300 hover:bg-blue-600" onClick={() => navigate('/help')}>
+              <button
+                className="bg-transparent border-white border-2 hover:bg-black hover:bg-opacity-50 text-white px-4 py-2 rounded transition duration-300 hover:bg-blue-600"
+                onClick={() => navigate("/help")}
+              >
                 Help
               </button>
             </div>
@@ -224,11 +227,17 @@ const InfluencerList = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-8 mx-2">
-        {filteredInfluencers.map((influencer) => (
-          <InfluencerCard key={influencer._id} influencer={influencer} />
-        ))}
-      </div>
+      {filteredInfluencers.length === 0 ? (
+        <div className="no-influencer flex items-center justify-center mt-10">
+          <h3 className="text-2xl font-semibold">No influencers found.</h3>
+        </div>
+      ) : (
+        <div className="flex flex-wrap justify-center gap-8 mx-2">
+          {filteredInfluencers.map((influencer) => (
+            <InfluencerCard key={influencer._id} influencer={influencer} />
+          ))}
+        </div>
+      )}
     </>
   );
 };

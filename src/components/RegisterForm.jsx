@@ -6,6 +6,7 @@ import categoryList from "../data/categoryList";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { ColorRing } from 'react-loader-spinner'
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -31,6 +32,7 @@ const RegisterForm = () => {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
   const [registrationStatus, setRegistrationStatus] = useState(null);
 
   const navigate = useNavigate();
@@ -50,7 +52,7 @@ const RegisterForm = () => {
         alert("Hanya file dengan tipe JPG, JPEG, dan PNG yang diizinkan.");
         return;
       }
-  
+
       // Memeriksa ukuran file
       const fileSize = file.size / 1024 / 1024; // Ukuran dalam MB
       const maxSize = 1; // Ukuran maksimal dalam MB
@@ -58,9 +60,9 @@ const RegisterForm = () => {
         alert(`Ukuran file melebihi batas maksimal ${maxSize} MB.`);
         return;
       }
-    setFormData((prevData) => ({ ...prevData, profile_photo: file }));
+      setFormData((prevData) => ({ ...prevData, profile_photo: file }));
+    }
   };
-}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,6 +85,8 @@ const RegisterForm = () => {
 
     // You need to replace 'URL_REGISTER_ENDPOINT' with your actual backend endpoint
     try {
+      setLoading(true);
+
       const response = await axios.post(
         "http://localhost:5000/register",
         formDataToSend,
@@ -94,6 +98,7 @@ const RegisterForm = () => {
       );
 
       console.log("Registration successful:", response.data);
+      setLoading(false);
 
       setRegistrationStatus("success");
 
@@ -102,6 +107,7 @@ const RegisterForm = () => {
       }, 3000);
     } catch (error) {
       console.error("Error registering:", error);
+      setLoading(false);
 
       setRegistrationStatus("error");
       if (error.response && error.response.data) {
@@ -205,6 +211,10 @@ const RegisterForm = () => {
             onChange={handleChange}
             value={formData.phone}
           />
+          <p className="text-sm text-yellow-500 font-bold mt-1">
+            (Pastikan nomor telepon sama seperti di bio social media agar mudah
+            dalam pengecekan)
+          </p>
         </div>
 
         {formErrors.phone && (
@@ -270,6 +280,9 @@ const RegisterForm = () => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             onChange={handleFileChange}
           />
+          <p className="text-sm text-yellow-500 font-bold mt-1">
+            (Max size photo : 1MB)
+          </p>
         </div>
 
         {formErrors.profile_photo && (
@@ -365,7 +378,19 @@ const RegisterForm = () => {
               type="submit"
               className="bg-yellow hover:bg-dark-yellow text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
-              Register
+              {loading ? (
+                <ColorRing
+                visible={true}
+                height="25"
+                width="20"
+                ariaLabel="color-ring-loading"
+                wrapperStyle={{}}
+                wrapperClass="color-ring-wrapper"
+                colors={['#ffffff']}
+                />
+              ) : (
+                "Register"
+              )}
             </button>
           </div>
           <div className="backto-landingpage hover:bg-dark-yellow hover:text-grey bg-yellow w-52 h-10 rounded flex justify-center items-center">

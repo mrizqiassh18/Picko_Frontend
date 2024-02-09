@@ -1,11 +1,12 @@
 // EditProfileForm.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import cityList from "../../data/CityList";
-import categoryList from "../../data/CategoryList";
+import cityList from "../../data/cityList";
+import categoryList from "../../data/categoryList";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import Navbar from "../../components/Navbar";
+import { ColorRing } from 'react-loader-spinner'
 
 const EditProfileForm = () => {
   const { id: influencerId } = useParams();
@@ -35,6 +36,7 @@ const EditProfileForm = () => {
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [lastUpdate, setLastUpdate] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -104,6 +106,7 @@ const EditProfileForm = () => {
     }
 
     try {
+      setLoading(true);
       await axios.put(
         `http://localhost:5000/api/influencers/update/${influencerId}`,
         formDataToSend,
@@ -116,6 +119,7 @@ const EditProfileForm = () => {
       );
 
       setSuccessMessage("Data berhasil diupdate");
+      setLoading(false);
       setTimeout(() => {
         setSuccessMessage("");
       }, 3000); // Setelah 3 detik, pesan akan dihapus
@@ -123,6 +127,7 @@ const EditProfileForm = () => {
       console.log("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error);
+      setLoading(false);
     }
   };
 
@@ -130,7 +135,7 @@ const EditProfileForm = () => {
     <div>
       <Navbar />
 
-      <div className="container mx-auto mt-10">
+      <div className="container mx-auto mt-28">
         {successMessage && (
           <div className="bg-green-200 text-green-800 p-2 mb-4">
             {successMessage}
@@ -339,7 +344,19 @@ const EditProfileForm = () => {
                 type="submit"
                 className="bg-yellow hover:bg-dark-yellow text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
-                Update Profile
+                {loading ? (
+                <ColorRing
+                visible={true}
+                height="25"
+                width="20"
+                ariaLabel="color-ring-loading"
+                wrapperStyle={{}}
+                wrapperClass="color-ring-wrapper"
+                colors={['#ffffff']}
+                />
+              ) : (
+                "Update Profile"
+              )}
               </button>
             </div>
           </form>

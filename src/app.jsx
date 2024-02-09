@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -14,10 +14,10 @@ import EditProfileForm from "./pages/influencer/EditProfilePage";
 import AccountControlPage from "./pages/admin/AccountControlPage";
 import InfluencerList from "./pages/general/InfluencerListPage";
 import { AuthProvider, useAuth } from "./context/AuthContext";
-import AuthGuard from "./components/AuthGuard";
 
 const App = () => {
   return (
+
     <AuthProvider>
       <Router>
         <Routes>
@@ -25,7 +25,7 @@ const App = () => {
             path="/register"
             element={
               <TransitionWrapper>
-                <AuthGuard><RegisterPage /></AuthGuard>
+                  <RegisterPage />
               </TransitionWrapper>
             }
           />
@@ -33,29 +33,51 @@ const App = () => {
             path="/login"
             element={
               <TransitionWrapper>
-                <AuthGuard><LoginPage /></AuthGuard>
+                  <LoginPage />
               </TransitionWrapper>
             }
           />
           <Route
             path="/influencer/edit-data/:id"
             element={
-              <ProtectedRoute element={<EditProfileForm />} role="influencer" />
+              <ProtectedRoute
+                element={
+                  <TransitionWrapper>
+                    <EditProfileForm />
+                  </TransitionWrapper>
+                }
+                role="influencer"
+              />
             }
           />
           <Route
             path="/admin/account-control"
             element={
-              <ProtectedRoute element={<AccountControlPage />} role="admin" />
+              <ProtectedRoute
+                element={
+                  <TransitionWrapper>
+                    <AccountControlPage />
+                  </TransitionWrapper>
+                }
+                role="admin"
+              />
             }
           />
-          <Route 
+          <Route
             path="/"
-            element={<TransitionWrapper><InfluencerList /></TransitionWrapper>}
+            element={
+              <TransitionWrapper>
+                  <InfluencerList />
+              </TransitionWrapper>
+            }
           />
-          <Route 
+          <Route
             path="/help"
-            element={<TransitionWrapper><HelpPage /></TransitionWrapper>}
+            element={
+              <TransitionWrapper>
+                  <HelpPage />
+              </TransitionWrapper>
+            }
           />
         </Routes>
       </Router>

@@ -45,7 +45,7 @@ const init = async () => {
 
 const fetchUserData = async (userId) => {
   try {
-    const response = await axios.get(`http://localhost:5000/user/${userId}`);
+    const response = await axios.get(`https://picko-backend-k2drcy8zj-mrizqiassh18.vercel.app/user/${userId}`);
     const userData = response.data;
     return userData;
   } catch (error) {

@@ -24,7 +24,7 @@ const AccountControlPage = () => {
         });
 
         const response = await axios.get(
-          "http://localhost:5000/api/admin/influencers",
+          "https://picko-backend-k2drcy8zj-mrizqiassh18.vercel.app/api/admin/influencers",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -56,7 +56,7 @@ const AccountControlPage = () => {
       if (result.isConfirmed) {
         // Kirim permintaan ke backend untuk menyetujui influencer
         await axios.put(
-          `http://localhost:5000/api/admin/approve-influencer/${id}`,
+          `https://picko-backend-k2drcy8zj-mrizqiassh18.vercel.app/api/admin/approve-influencer/${id}`,
           {},
           {
             headers: {
@@ -99,7 +99,7 @@ const AccountControlPage = () => {
       if (result.isConfirmed) {
         // Kirim permintaan ke backend untuk menonaktifkan influencer
         await axios.put(
-          `http://localhost:5000/api/admin/disable-influencer/${id}`,
+          `https://picko-backend-k2drcy8zj-mrizqiassh18.vercel.app/api/admin/disable-influencer/${id}`,
           {},
           {
             headers: {
@@ -140,7 +140,7 @@ const AccountControlPage = () => {
 
       if (result.isConfirmed) {
         await axios.delete(
-          `http://localhost:5000/api/admin/delete-influencer/${id}`,
+          `https://picko-backend-k2drcy8zj-mrizqiassh18.vercel.app/api/admin/delete-influencer/${id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

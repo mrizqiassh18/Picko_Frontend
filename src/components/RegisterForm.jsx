@@ -88,7 +88,7 @@ const RegisterForm = () => {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:5000/register",
+        "https://picko-backend-k2drcy8zj-mrizqiassh18.vercel.app/register",
         formDataToSend,
         {
           headers: {

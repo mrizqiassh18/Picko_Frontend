@@ -28,7 +28,7 @@ const Navbar = () => {
         </span>
       </div>
       <div className="flex w-100 items-center">
-      <p className="w-28 text-white font-semibold">Hello, {name}!</p>
+      <p className="w-72 text-white font-semibold">Hello, {name}!</p>
         {/* Tombol Logout dan Kembali ke Landing Page */}
         <button
           onClick={handleLogout}

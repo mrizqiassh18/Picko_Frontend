@@ -140,7 +140,7 @@ const RegisterForm = () => {
   return (
     <div className="container mx-auto">
       <div className="logo flex justify-center mb-10">
-        <img src="/public/logo/logo.png" alt="logo" />
+        <img src="/logo/logo.png" alt="logo" />
       </div>
 
       <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>

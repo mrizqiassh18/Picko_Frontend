@@ -55,7 +55,6 @@ const fetchUserData = async (userId) => {
 };
 
 const authReducer = (state, action) => {
-  console.log("Reducer Action:", action);
   switch (action.type) {
     case "LOGIN":
       const newState = {
@@ -93,7 +92,6 @@ const AuthProvider = ({ children }) => {
     // Panggil fungsi init di sini jika diperlukan
     const initialize = async () => {
       const initializedState = await init();
-      console.log("Initialized State:", initializedState);
       dispatch({ type: "INIT", payload: initializedState });
     };
 

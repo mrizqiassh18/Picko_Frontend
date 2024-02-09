@@ -20,7 +20,7 @@ const Navbar = () => {
         
       };
     return (
-        <nav className="bg-yellow p-4 flex justify-between items-center">
+        <nav className="bg-yellow p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 p-4 transition-all">
         <div className="container mx-auto">
           {/* Tambahkan logo di sini */}
           <span className="logo text-white font-bold text-lg text-4xl">Pick'O</span>
@@ -29,15 +29,15 @@ const Navbar = () => {
           {/* Tombol Logout dan Kembali ke Landing Page */}
           <button
             onClick={handleLogout}
-            className="text-white hover:text-dark-grey py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4 font-medium"
+            className="text-white hover:bg-dark-yellow py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4 font-medium font-semibold"
           >
             Logout
           </button>
           <button
             onClick={() => navigate("/")}
-            className="text-white hover:text-dark-grey py-2 px-4 rounded focus:outline-none focus:shadow-outline font-medium"
+            className="text-white hover:bg-dark-yellow py-2 px-4 rounded focus:outline-none focus:shadow-outline font-medium font-semibold"
           >
-            Back to Landing Page
+            Back to Influencer List
           </button>
         </div>
       </nav>

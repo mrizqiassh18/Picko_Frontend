@@ -124,7 +124,7 @@ const LoginForm = () => {
           </div>
           <div className="backto-landingpage hover:bg-dark-yellow hover:text-grey bg-yellow w-52 h-10 rounded flex justify-center items-center">
             <p className="text-white font-medium">
-              <Link to="/">Back to Landing Page</Link>
+              <Link to="/">Back to Influencers List</Link>
             </p>
           </div>
         </div>

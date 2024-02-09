@@ -6,7 +6,7 @@ const AdminAccountControl = ({ influencer, onApprove, onDisable }) => {
     <div className="profile-card border-white40 flex w-full max-w-md flex-col items-center rounded-lg border bg-white p-8 shadow-lg mb-10">
       <div className="image relative h-70 w-25 flex items-center">
         <img
-          className="object-cover rounded-lg h-30 w-20"
+          className="object-cover rounded-lg h-36 w-40"
           src={influencer.profile_photo}
           alt="influencer-photo"
         />
@@ -29,7 +29,7 @@ const AdminAccountControl = ({ influencer, onApprove, onDisable }) => {
         <div>
           {influencer.status === "pending" && (
             <button
-              className="bg-green-500 text-white px-4 py-2 rounded-md mr-2 object-cover mx-auto mb-2"
+              className="bg-yellow hover:bg-dark-yellow text-white px-4 py-2 rounded-md mr-2 object-cover mx-auto mb-2"
               onClick={() => onApprove(influencer._id)}
             >
               Approve
@@ -37,7 +37,7 @@ const AdminAccountControl = ({ influencer, onApprove, onDisable }) => {
           )}
           {influencer.status === "disabled" && (
             <button
-              className="bg-yellow text-white px-4 py-2 rounded-md mr-2"
+              className="bg-yellow hover:bg-dark-yellow text-white px-4 py-2 rounded-md mr-2"
               onClick={() => onApprove(influencer._id)}
             >
               Approve
@@ -45,7 +45,7 @@ const AdminAccountControl = ({ influencer, onApprove, onDisable }) => {
           )}
           {influencer.status === "approved" && (
             <button
-              className="bg-dark-grey text-white px-4 py-2 rounded-md"
+              className="bg-grey hover:bg-dark-grey text-white px-4 py-2 rounded-md"
               onClick={() => onDisable(influencer._id)}
             >
               Disable

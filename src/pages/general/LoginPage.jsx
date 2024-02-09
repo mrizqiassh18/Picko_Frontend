@@ -8,14 +8,17 @@ const LoginPage = () => {
   const { userId, role } = useAuth().state;
 
   // Check jika user sudah login, redirect ke halaman lain
-  if (userId) {
-    if (role === "admin") {
-      navigate("/admin/account-control");
-    } else if (role === "influencer") {
-      navigate(`/influencer/edit-data/${userId}`);
+  useEffect(() => {
+    if (userId) {
+      if (role === "admin") {
+        // Redirect ke halaman admin account control
+        navigate("/admin/account-control");
+      } else if (role === "influencer") {
+        // Redirect ke halaman edit data influencer
+        navigate(`/influencer/edit-data/${userId}`);
+      }
     }
-    return null;
-  }
+  }, [userId, role, navigate]);
 
   const [backgroundIndex, setBackgroundIndex] = useState(0);
 

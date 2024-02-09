@@ -7,9 +7,9 @@ const InfluencerCard = ({ influencer }) => {
 
   return (
     <div className="profile-card border-white40 flex w-full max-w-md flex-col items-center rounded-lg border bg-white p-8 shadow-lg mb-10">
-      <div className="image relative h-70 w-25 flex items-center">
+      <div className="image relative h-70 w-100 flex items-center">
         <img
-          className="object-cover rounded-lg h-30 w-20"
+          className="object-cover rounded-lg h-44 w-60"
           src={profile_photo}
           alt={`influencer-${name}-photo`}
         />

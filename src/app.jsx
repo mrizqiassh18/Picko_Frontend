@@ -5,15 +5,16 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import LandingPage from "./pages/general/Landing-Page";
 import RegisterPage from "./pages/general/RegisterPage";
 import LoginPage from "./pages/general/LoginPage";
+import HelpPage from "./pages/general/HelpPage";
 import "./index.tailwind.css";
 import TransitionWrapper from "../src/components/TransitionWrapper";
 import EditProfileForm from "./pages/influencer/EditProfilePage";
 import AccountControlPage from "./pages/admin/AccountControlPage";
 import InfluencerList from "./pages/general/InfluencerListPage";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import AuthGuard from "./components/AuthGuard";
 
 const App = () => {
   return (
@@ -21,18 +22,10 @@ const App = () => {
       <Router>
         <Routes>
           <Route
-            path="/"
-            element={
-              <TransitionWrapper>
-                <LandingPage />
-              </TransitionWrapper>
-            }
-          />
-          <Route
             path="/register"
             element={
               <TransitionWrapper>
-                <RegisterPage />
+                <AuthGuard><RegisterPage /></AuthGuard>
               </TransitionWrapper>
             }
           />
@@ -40,7 +33,7 @@ const App = () => {
             path="/login"
             element={
               <TransitionWrapper>
-                <LoginPage />
+                <AuthGuard><LoginPage /></AuthGuard>
               </TransitionWrapper>
             }
           />
@@ -57,8 +50,12 @@ const App = () => {
             }
           />
           <Route 
-            path="/home"
+            path="/"
             element={<TransitionWrapper><InfluencerList /></TransitionWrapper>}
+          />
+          <Route 
+            path="/help"
+            element={<TransitionWrapper><HelpPage /></TransitionWrapper>}
           />
         </Routes>
       </Router>

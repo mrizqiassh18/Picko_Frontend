@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import InfluencerCard from "../../components/InfluencerCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import cityList from "../../data/cityList.js";
 import categoryList from "../../data/categoryList.js";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 const InfluencerList = () => {
   const [backgroundIndex, setBackgroundIndex] = useState(0);
@@ -23,6 +24,7 @@ const InfluencerList = () => {
     return () => clearInterval(intervalId);
   }, []);
 
+  const { userId, role, name } = useAuth().state;
   const [influencers, setInfluencers] = useState([]);
   const navigate = useNavigate();
   const [filter, setFilter] = useState({
@@ -95,23 +97,58 @@ const InfluencerList = () => {
     };
   }, []);
 
+  const handleLoginRegisterClick = () => {
+    // Navigasi ke halaman register
+    navigate("/login"); // Ganti dengan rute halaman register Anda
+  };
+
+  const handleLogout = () => {
+    // Hapus token dari penyimpanan lokal
+    localStorage.removeItem("token");
+
+    // Redirect ke halaman login atau landing page
+    window.location.reload();
+  };
+
   return (
     <>
       <nav className="bg-yellow p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 p-4 transition-all">
         <div className="container mx-auto">
           {/* Tambahkan logo di sini */}
-          <span className="logo text-white font-bold text-lg text-4xl">
+          <span className="logo text-white font-bold text-lg text-4xl ml-4">
             Pick'O
           </span>
         </div>
-        <div>
-          <button
-            onClick={() => navigate("/")}
-            className="text-white hover:text-dark-grey py-2 px-4 rounded focus:outline-none focus:shadow-outline font-medium"
-          >
-            Back to Landing Page
-          </button>
-        </div>
+        {userId ? (
+          <div className="flex gap-2 w-200 items-center">
+            <p className="w-28 text-white font-semibold">Hello, {name}!</p>
+            <button
+              className="bg-yellow text-white h-10 w-20 hover:bg-dark-yellow hover:rounded font-semibold"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <div className="flex">
+            <button
+              className="bg-yellow hover:bg-dark-yellow text-white px-4 py-2 hover:rounded font-semibold"
+              onClick={handleLoginRegisterClick}
+            >
+              Login / Register
+            </button>
+          </div>
+        )}
+        {userId && role === "admin" && (
+          <div className="bg-yellow text-white h-10 w-40 flex justify-center items-center hover:bg-dark-yellow font-semibold hover:rounded">
+            <Link to="/admin/account-control">Account Control</Link>
+          </div>
+        )}
+        {userId && role === "influencer" && (
+          <div className="bg-yellow text-white h-10 w-40 flex justify-center items-center hover:bg-dark-yellow font-semibold hover:rounded">
+            <Link to={`/influencer/edit-data/${userId}`}>Edit Your Data</Link>
+          </div>
+        )}
       </nav>
 
       <div
@@ -125,6 +162,11 @@ const InfluencerList = () => {
             <div className="title text-6xl mb-4">Mudahnya Promosi</div>
             <div className="motto text-lg mb-8">
               Dengan Pick'O mencari influencer untuk promosi menjadi mudah
+            </div>
+            <div className="help-button">
+              <button className="bg-transparent border-white border-2 hover:bg-black hover:bg-opacity-50 text-white px-4 py-2 rounded transition duration-300 hover:bg-blue-600" onClick={() => navigate('/help')}>
+                Help
+              </button>
             </div>
           </div>
         </div>
@@ -182,7 +224,7 @@ const InfluencerList = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-8">
+      <div className="flex flex-wrap justify-center gap-8 mx-2">
         {filteredInfluencers.map((influencer) => (
           <InfluencerCard key={influencer._id} influencer={influencer} />
         ))}

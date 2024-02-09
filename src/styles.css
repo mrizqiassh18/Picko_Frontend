@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'ModernKing'; /* Ganti NamaFont sesuai keinginan Anda */
-  src: url('/font/Modern\ King.ttf') format('truetype'); /* Ganti path/to/font.ttf sesuai dengan lokasi font di proyek Anda */
+  src: url('../public/font/Modern\ King.ttf') format('truetype'); /* Ganti path/to/font.ttf sesuai dengan lokasi font di proyek Anda */
   font-weight: normal;
   font-style: normal;
 }

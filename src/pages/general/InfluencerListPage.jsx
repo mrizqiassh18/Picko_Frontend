@@ -237,18 +237,16 @@ const InfluencerList = () => {
       </div>
 
       {loading ? (
-        <div className="loading-container flex justify-center items-center text-center w-max">
-          <div className="loading">
-            <ColorRing
-              visible={true}
-              height="200"
-              width="200"
-              ariaLabel="color-ring-loading"
-              wrapperStyle={{}}
-              wrapperClass="color-ring-wrapper"
-              colors={["#ffffff"]}
-            />
-          </div>
+        <div className="loading flex justify-center items-center">
+          <ColorRing
+            visible={true}
+            height="250"
+            width="200"
+            ariaLabel="color-ring-loading"
+            wrapperStyle={{}}
+            wrapperClass="color-ring-wrapper"
+            colors={["#ffffff"]}
+          />
         </div>
       ) : filteredInfluencers.length === 0 ? (
         <div className="no-influencer flex items-center justify-center mt-10">

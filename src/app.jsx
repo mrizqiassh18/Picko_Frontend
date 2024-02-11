@@ -19,7 +19,7 @@ const App = () => {
   return (
 
     <AuthProvider>
-      <Router>
+      <Router basename="/">
         <Routes>
           <Route
             path="/register"
@@ -94,7 +94,7 @@ const ProtectedRoute = ({ element, role }) => {
 
   // Jika user belum login atau rolenya tidak sesuai, redirect ke halaman login
   if (!state.userId || (role && state.role !== role)) {
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
   }
 
   return element;

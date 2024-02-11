@@ -157,18 +157,22 @@ const EditProfileForm = () => {
             </div>
             {lastUpdate && <p className="text-black">{lastUpdate}</p>}
           </div>
+
           {loadingProfile ? (
-            <div className="loading flex justify-center items-center">
-              <ColorRing
-                visible={true}
-                height="250"
-                width="250"
-                ariaLabel="color-ring-loading"
-                wrapperStyle={{}}
-                wrapperClass="color-ring-wrapper"
-                colors={["#ffffff"]}
-              />
-            </div>
+            <>
+              <div className="loading flex justify-center items-center">
+                <ColorRing
+                  visible={true}
+                  height="250"
+                  width="250"
+                  ariaLabel="color-ring-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="color-ring-wrapper"
+                  colors={["#ffffff"]}
+                />
+              </div>
+              <h1>Loading Profile</h1>
+            </>
           ) : (
             <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
               {/* Name Input */}

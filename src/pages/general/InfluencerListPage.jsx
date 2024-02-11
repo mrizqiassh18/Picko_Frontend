@@ -119,7 +119,7 @@ const InfluencerList = () => {
 
   return (
     <>
-      <nav className="bg-yellow w-200 p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 p-4 transition-all">
+      <nav className="bg-yellow p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 p-4 transition-all">
         <div className="container mx-auto">
           {/* Tambahkan logo di sini */}
           <span className="logo text-white font-bold text-lg text-4xl ml-4">
@@ -127,7 +127,7 @@ const InfluencerList = () => {
           </span>
         </div>
         {userId ? (
-          <div className="flex gap-2 w-200 items-center">
+          <div className="flex gap-2 w-250 items-center">
             <p className="w-72 text-white font-semibold text-right mr-2">
               Hello, {name}!
             </p>

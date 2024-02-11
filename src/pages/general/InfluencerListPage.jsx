@@ -5,6 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import cityList from "../../data/cityList.js";
 import categoryList from "../../data/categoryList.js";
 import { useAuth } from "../../context/AuthContext.jsx";
+import { ColorRing } from "react-loader-spinner";
 
 const InfluencerList = () => {
   const [backgroundIndex, setBackgroundIndex] = useState(0);
@@ -33,6 +34,7 @@ const InfluencerList = () => {
     minFollowers: "",
   });
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,13 +47,18 @@ const InfluencerList = () => {
             delete filterParams[key];
           }
         });
-
-        const response = await axios.get("https://picko-backend.vercel.app/home", {
-          params: filterParams,
-        });
+        setLoading(true);
+        const response = await axios.get(
+          "https://picko-backend.vercel.app/home",
+          {
+            params: filterParams,
+          }
+        );
+        setLoading(false);
         setInfluencers(response.data.influencers);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setLoading(false);
       }
     };
 
@@ -121,7 +128,9 @@ const InfluencerList = () => {
         </div>
         {userId ? (
           <div className="flex gap-2 w-200 items-center">
-            <p className="w-72 text-white font-semibold text-right mr-2">Hello, {name}!</p>
+            <p className="w-72 text-white font-semibold text-right mr-2">
+              Hello, {name}!
+            </p>
             <button
               className="bg-yellow text-white h-10 w-20 hover:bg-dark-yellow hover:rounded font-semibold"
               onClick={handleLogout}
@@ -227,7 +236,17 @@ const InfluencerList = () => {
         </div>
       </div>
 
-      {filteredInfluencers.length === 0 ? (
+      {loading ? (
+        <ColorRing
+          visible={true}
+          height="25"
+          width="20"
+          ariaLabel="color-ring-loading"
+          wrapperStyle={{}}
+          wrapperClass="color-ring-wrapper"
+          colors={["#ffffff"]}
+        />
+      ) : filteredInfluencers.length === 0 ? (
         <div className="no-influencer flex items-center justify-center mt-10">
           <h3 className="text-2xl font-semibold">No influencers found.</h3>
         </div>

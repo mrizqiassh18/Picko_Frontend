@@ -94,7 +94,7 @@ const ProtectedRoute = ({ element, role }) => {
 
   // Jika user belum login atau rolenya tidak sesuai, redirect ke halaman login
   if (!state.userId || (role && state.role !== role)) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
   return element;

@@ -159,7 +159,7 @@ const EditProfileForm = () => {
           </div>
 
           {loadingProfile ? (
-            <>
+            <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
               <div className="loading flex justify-center items-center">
                 <ColorRing
                   visible={true}
@@ -171,8 +171,7 @@ const EditProfileForm = () => {
                   colors={["#ffffff"]}
                 />
               </div>
-              <h1>Loading Profile</h1>
-            </>
+              </form>
           ) : (
             <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
               {/* Name Input */}

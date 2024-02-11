@@ -12,7 +12,7 @@ const LoginForm = () => {
   });
 
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { dispatch } = useAuth();
 
@@ -25,13 +25,17 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("https://picko-backend.vercel.app/login", {
-        email: formData.email,
-        password: formData.password,
-      });
+      setLoading(true);
+      const response = await axios.post(
+        "https://picko-backend.vercel.app/login",
+        {
+          email: formData.email,
+          password: formData.password,
+        }
+      );
 
       const { userId, token, role, name, status } = response.data;
-
+      setLoading(false);
       // Dispatch aksi LOGIN untuk menyimpan informasi pengguna ke dalam konteks
       dispatch({
         type: "LOGIN",
@@ -51,6 +55,7 @@ const LoginForm = () => {
     } catch (error) {
       // Handle error
       console.error("Login error:", error);
+      setLoading(false);
 
       if (error.response && error.response.status === 401) {
         setErrorMessage("Email atau password salah. Coba lagi.");
@@ -68,7 +73,6 @@ const LoginForm = () => {
 
   return (
     <div className="container mx-auto mt-10">
-
       <div className="logo flex justify-center mb-16">
         <img src="/logo/logo.png" alt="logo" />
       </div>
@@ -119,7 +123,19 @@ const LoginForm = () => {
               type="submit"
               className="bg-yellow hover:bg-dark-yellow text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
-              Login
+              {loading ? (
+                <ColorRing
+                  visible={true}
+                  height="25"
+                  width="20"
+                  ariaLabel="color-ring-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="color-ring-wrapper"
+                  colors={["#ffffff"]}
+                />
+              ) : (
+                "Login"
+              )}
             </button>
           </div>
           <div className="backto-landingpage hover:bg-dark-yellow hover:text-grey bg-yellow w-52 h-10 rounded flex justify-center items-center">

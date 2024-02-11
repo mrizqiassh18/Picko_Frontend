@@ -80,9 +80,6 @@ const RegisterForm = () => {
       formDataToSend.append(key, formData[key]);
     }
 
-    // Tambahkan log ini
-    console.log("Data to be sent:", formData);
-
     // You need to replace 'URL_REGISTER_ENDPOINT' with your actual backend endpoint
     try {
       setLoading(true);

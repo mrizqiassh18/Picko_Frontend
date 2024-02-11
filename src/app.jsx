@@ -19,7 +19,7 @@ const App = () => {
   return (
 
     <AuthProvider>
-      <Router basename="/">
+      <Router>
         <Routes>
           <Route
             path="/register"

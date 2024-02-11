@@ -149,7 +149,7 @@ const InfluencerList = () => {
           </div>
         )}
         {userId && role === "admin" && (
-          <div className="bg-yellow text-white h-10 w-50 flex justify-center items-center hover:bg-dark-yellow font-semibold hover:rounded">
+          <div className="bg-yellow text-white h-10 w-48 flex justify-center items-center hover:bg-dark-yellow font-semibold hover:rounded">
             <Link to="/admin/account-control">Account Control</Link>
           </div>
         )}

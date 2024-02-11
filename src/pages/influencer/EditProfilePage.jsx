@@ -4,14 +4,12 @@ import axios from "axios";
 import cityList from "../../data/cityList";
 import categoryList from "../../data/categoryList";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
 import Navbar from "../../components/Navbar";
-import { ColorRing } from 'react-loader-spinner'
+import { ColorRing } from "react-loader-spinner";
 
 const EditProfileForm = () => {
   const { id: influencerId } = useParams();
   const navigate = useNavigate();
-  const { dispatch } = useAuth();
 
   useEffect(() => {
     // Check if user is logged in
@@ -37,10 +35,12 @@ const EditProfileForm = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [lastUpdate, setLastUpdate] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loadingProfile, setLoadingProfile] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoadingProfile(true);
         const response = await axios.get(
           `https://picko-backend.vercel.app/api/influencers/${influencerId}`,
           {
@@ -49,6 +49,8 @@ const EditProfileForm = () => {
             },
           }
         );
+
+        setLoadingProfile(false);
 
         const influencer = response.data.influencer;
 
@@ -80,6 +82,7 @@ const EditProfileForm = () => {
         );
       } catch (error) {
         console.error("Error fetching user profile:", error);
+        setLoadingProfile(false);
       }
     };
 
@@ -154,212 +157,225 @@ const EditProfileForm = () => {
             </div>
             {lastUpdate && <p className="text-black">{lastUpdate}</p>}
           </div>
-
-          <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
-            {/* Name Input */}
-            <div className="mb-4">
-              <label
-                htmlFor="name"
-                className="block text-gray-700 text-sm font-bold mb-2"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Your Name"
-                onChange={handleChange}
-                value={formData.name}
-              />
-            </div>
-
-            {/* Address Input */}
-            <div className="mb-4">
-              <label
-                htmlFor="address"
-                className="block text-gray-700 text-sm font-bold mb-2"
-              >
-                City
-              </label>
-              <select
-                id="address"
-                name="address"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                onChange={handleChange}
-                value={formData.address}
-              >
-                <option value="" disabled>
-                  Select City
-                </option>
-                {cityList.map((city, index) => (
-                  <option key={index} value={city}>
-                    {city}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Phone Input */}
-            <div className="mb-4">
-              <label
-                htmlFor="phone"
-                className="block text-gray-700 text-sm font-bold mb-2"
-              >
-                Phone
-              </label>
-              <input
-                type="text"
-                id="phone"
-                name="phone"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Your Phone"
-                onChange={handleChange}
-                value={formData.phone}
-              />
-            </div>
-
-            {/* Social Media Link Input */}
-            <div className="mb-4">
-              <label
-                htmlFor="socialMediaLink"
-                className="block text-gray-700 text-sm font-bold mb-2"
-              >
-                Social Media Link
-              </label>
-              <input
-                type="text"
-                id="socialMediaLink"
-                name="socialMediaLink"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Your Social Media Link"
-                onChange={handleChange}
-                value={formData.socialMediaLink}
-              />
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="followers"
-                className="block text-gray-700 text-sm font-bold mb-2"
-              >
-                Followers
-              </label>
-              <input
-                type="number"
-                id="followers"
-                name="followers"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Number of Followers"
-                onChange={handleChange}
-                value={formData.followers}
-              />
-            </div>
-
-            {/* Attach Photo Input */}
-            <div className="mb-4">
-              <label
-                htmlFor="profile_photo"
-                className="block text-gray-700 text-sm font-bold mb-2"
-              >
-                Attach Photo
-              </label>
-              <input
-                type="file"
-                id="profile_photo"
-                name="profile_photo"
-                accept="image/*"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                onChange={handleFileChange}
-              />
-            </div>
-
-            {/* Category Input */}
-            <div className="mb-4">
-              <label
-                htmlFor="category"
-                className="block text-gray-700 text-sm font-bold mb-2"
-              >
-                Category
-              </label>
-              <select
-                id="category"
-                name="category"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                onChange={handleChange}
-                value={formData.category}
-              >
-                <option value="" disabled>
-                  Select Category
-                </option>
-                {categoryList.map((category, index) => (
-                  <option key={index} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Email Input (readOnly) */}
-            <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-gray-700 text-sm font-bold mb-2"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Your Email"
-                value={formData.email}
-                readOnly
-              />
-            </div>
-
-            {/* Password Input */}
-            <div className="mb-4">
-              <label
-                htmlFor="password"
-                className="block text-gray-700 text-sm font-bold mb-2"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Your Password"
-                onChange={handleChange}
-                value={formData.password}
-              />
-            </div>
-
-            <div className="mb-4">
-              <button
-                type="submit"
-                className="bg-yellow hover:bg-dark-yellow text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              >
-                {loading ? (
-                <ColorRing
+          {loadingProfile ? (
+            <div className="loading flex justify-center items-center">
+              <ColorRing
                 visible={true}
-                height="25"
-                width="20"
+                height="250"
+                width="250"
                 ariaLabel="color-ring-loading"
                 wrapperStyle={{}}
                 wrapperClass="color-ring-wrapper"
-                colors={['#ffffff']}
-                />
-              ) : (
-                "Update Profile"
-              )}
-              </button>
+                colors={["#ffffff"]}
+              />
             </div>
-          </form>
+          ) : (
+            <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
+              {/* Name Input */}
+              <div className="mb-4">
+                <label
+                  htmlFor="name"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder="Your Name"
+                  onChange={handleChange}
+                  value={formData.name}
+                />
+              </div>
+
+              {/* Address Input */}
+              <div className="mb-4">
+                <label
+                  htmlFor="address"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  City
+                </label>
+                <select
+                  id="address"
+                  name="address"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleChange}
+                  value={formData.address}
+                >
+                  <option value="" disabled>
+                    Select City
+                  </option>
+                  {cityList.map((city, index) => (
+                    <option key={index} value={city}>
+                      {city}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Phone Input */}
+              <div className="mb-4">
+                <label
+                  htmlFor="phone"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Phone
+                </label>
+                <input
+                  type="text"
+                  id="phone"
+                  name="phone"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder="Your Phone"
+                  onChange={handleChange}
+                  value={formData.phone}
+                />
+              </div>
+
+              {/* Social Media Link Input */}
+              <div className="mb-4">
+                <label
+                  htmlFor="socialMediaLink"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Social Media Link
+                </label>
+                <input
+                  type="text"
+                  id="socialMediaLink"
+                  name="socialMediaLink"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder="Your Social Media Link"
+                  onChange={handleChange}
+                  value={formData.socialMediaLink}
+                />
+              </div>
+
+              <div className="mb-4">
+                <label
+                  htmlFor="followers"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Followers
+                </label>
+                <input
+                  type="number"
+                  id="followers"
+                  name="followers"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder="Number of Followers"
+                  onChange={handleChange}
+                  value={formData.followers}
+                />
+              </div>
+
+              {/* Attach Photo Input */}
+              <div className="mb-4">
+                <label
+                  htmlFor="profile_photo"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Attach Photo
+                </label>
+                <input
+                  type="file"
+                  id="profile_photo"
+                  name="profile_photo"
+                  accept="image/*"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleFileChange}
+                />
+              </div>
+
+              {/* Category Input */}
+              <div className="mb-4">
+                <label
+                  htmlFor="category"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Category
+                </label>
+                <select
+                  id="category"
+                  name="category"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleChange}
+                  value={formData.category}
+                >
+                  <option value="" disabled>
+                    Select Category
+                  </option>
+                  {categoryList.map((category, index) => (
+                    <option key={index} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Email Input (readOnly) */}
+              <div className="mb-4">
+                <label
+                  htmlFor="email"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder="Your Email"
+                  value={formData.email}
+                  readOnly
+                />
+              </div>
+
+              {/* Password Input */}
+              <div className="mb-4">
+                <label
+                  htmlFor="password"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder="Your Password"
+                  onChange={handleChange}
+                  value={formData.password}
+                />
+              </div>
+
+              <div className="mb-4">
+                <button
+                  type="submit"
+                  className="bg-yellow hover:bg-dark-yellow text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                  {loading ? (
+                    <ColorRing
+                      visible={true}
+                      height="25"
+                      width="20"
+                      ariaLabel="color-ring-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="color-ring-wrapper"
+                      colors={["#ffffff"]}
+                    />
+                  ) : (
+                    "Update Profile"
+                  )}
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </div>
     </div>

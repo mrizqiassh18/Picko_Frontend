@@ -241,7 +241,7 @@ const InfluencerList = () => {
           <ColorRing
             visible={true}
             height="250"
-            width="200"
+            width="250"
             ariaLabel="color-ring-loading"
             wrapperStyle={{}}
             wrapperClass="color-ring-wrapper"

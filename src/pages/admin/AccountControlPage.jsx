@@ -3,6 +3,7 @@ import axios from "axios";
 import AdminAccountControl from "../../components/AdminAccountControl";
 import Swal from "sweetalert2";
 import Navbar from "../../components/Navbar";
+import { ColorRing } from "react-loader-spinner";
 
 const AccountControlPage = () => {
   const [influencers, setInfluencers] = useState([]);
@@ -11,6 +12,7 @@ const AccountControlPage = () => {
     name: "",
   });
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,6 +25,7 @@ const AccountControlPage = () => {
           }
         });
 
+        setLoading(true);
         const response = await axios.get(
           "https://picko-backend.vercel.app/api/admin/influencers",
           {
@@ -32,9 +35,11 @@ const AccountControlPage = () => {
             params: filterParams,
           }
         );
+        setLoading(false);
         setInfluencers(response.data.getInfluencers);
       } catch (error) {
         console.error("Error fetching influencers:", error);
+        setLoading(false);
       }
     };
 
@@ -201,7 +206,19 @@ const AccountControlPage = () => {
 
       <div className="container mx-auto mt-14">
         <h1 className="text-2xl font-bold mb-8">Admin | Account Control</h1>
-        {filteredInfluencers.length === 0 ? (
+        { loading ? (
+        <div className="loading flex justify-center items-center">
+          <ColorRing
+            visible={true}
+            height="250"
+            width="200"
+            ariaLabel="color-ring-loading"
+            wrapperStyle={{}}
+            wrapperClass="color-ring-wrapper"
+            colors={["#ffffff"]}
+          />
+        </div>
+      ) : filteredInfluencers.length === 0 ? (
           <div className="no-influencer flex items-center justify-center mt-10">
             <h2 className="text-2xl font-semibold">No influencers found.</h2>
           </div>

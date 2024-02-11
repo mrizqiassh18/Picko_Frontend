@@ -112,7 +112,7 @@ const InfluencerList = () => {
 
   return (
     <>
-      <nav className="bg-yellow p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 p-4 transition-all">
+      <nav className="bg-yellow w-200 p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 p-4 transition-all">
         <div className="container mx-auto">
           {/* Tambahkan logo di sini */}
           <span className="logo text-white font-bold text-lg text-4xl ml-4">
@@ -140,7 +140,7 @@ const InfluencerList = () => {
           </div>
         )}
         {userId && role === "admin" && (
-          <div className="bg-yellow text-white h-10 w-40 flex justify-center items-center hover:bg-dark-yellow font-semibold hover:rounded">
+          <div className="bg-yellow text-white h-10 w-50 flex justify-center items-center hover:bg-dark-yellow font-semibold hover:rounded">
             <Link to="/admin/account-control">Account Control</Link>
           </div>
         )}

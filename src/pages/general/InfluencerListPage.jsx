@@ -237,10 +237,10 @@ const InfluencerList = () => {
       </div>
 
       {loading ? (
-        <div className="loading flex justify-center items-center w-80">
+        <div className="loading flex justify-center items-center w-40">
           <ColorRing
             visible={true}
-            height="250"
+            height="200"
             width="200"
             ariaLabel="color-ring-loading"
             wrapperStyle={{}}

@@ -237,7 +237,7 @@ const InfluencerList = () => {
       </div>
 
       {loading ? (
-        <div className="loading flex justify-center items-center w-max">
+        <div className="loading flex justify-center items-center w-80">
           <ColorRing
             visible={true}
             height="250"

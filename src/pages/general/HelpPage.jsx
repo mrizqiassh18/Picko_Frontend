@@ -51,7 +51,7 @@ const HelpPage = () => {
         </div>
         {userId ? (
           <div className="flex gap-2 w-250 items-center">
-            <p className="w-72 text-white font-semibold">Hello, {name}!</p>
+            <p className="w-72 text-white font-semibold text-right mr-2">Hello, {name}!</p>
             <button
               className="bg-yellow text-white h-10 w-20 hover:bg-dark-yellow hover:rounded font-semibold"
               onClick={handleLogout}

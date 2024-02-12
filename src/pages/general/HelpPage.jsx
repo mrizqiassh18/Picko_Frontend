@@ -50,8 +50,8 @@ const HelpPage = () => {
           </span>
         </div>
         {userId ? (
-          <div className="flex gap-2 w-200 items-center">
-            <p className="w-28 text-white font-semibold">Hello, {name}!</p>
+          <div className="flex gap-2 w-250 items-center">
+            <p className="w-72 text-white font-semibold">Hello, {name}!</p>
             <button
               className="bg-yellow text-white h-10 w-20 hover:bg-dark-yellow hover:rounded font-semibold"
               onClick={handleLogout}
@@ -70,7 +70,7 @@ const HelpPage = () => {
           </div>
         )}
         {userId && role === "admin" && (
-          <div className="bg-yellow text-white h-10 w-40 flex justify-center items-center hover:bg-dark-yellow font-semibold hover:rounded">
+          <div className="bg-yellow text-white h-10 w-48 flex justify-center items-center hover:bg-dark-yellow font-semibold hover:rounded">
             <Link to="/admin/account-control">Account Control</Link>
           </div>
         )}
